@@ -1,0 +1,54 @@
+    body {
+  color: #fff;
+  font-size: 26px;
+  margin: 0;
+}
+
+.weatherApp-container {
+  width: 100%;
+}
+
+.weatherApp-row {
+  /* padding-right: 15px; */
+  /* padding-left: 15px; */
+ 
+  margin-right: auto;
+  margin-left: auto;
+}
+
+.map-container {
+  width: 50%;
+  float: left;
+}
+
+.background {
+  width: 50%;
+  float: left;
+  height: 400px;
+  background: black;
+}
+
+.info-container {
+  width: 50%;
+  background-color: #000;
+  margin: 0 auto;
+  text-align: center;
+  border-radius: 4px;
+  /* padding-top: 20px; */
+  /* padding-bottom: 10px; */
+  opacity: 0.7;
+}
+
+#map {
+  width: 100%;
+  height: 400px;
+}
+
+.header{
+  background-color: #000;
+  opacity: 0.7;
+  text-align: center;
+  border-radius: 4px;
+  width: 50%;
+  margin: 25px auto 0;
+}

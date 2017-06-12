@@ -1,0 +1,67 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<title></title>
+	<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>
+	<link rel="stylesheet" type="text/css" href="css/task1.css">
+
+</head>
+<body>
+<h2>TASK 1 : nxn grid</h2>
+<div id="container"></div>
+<div class="result">
+	<div class="first-result">RED:<span id="red-log"> 0</span></div>
+	<div class="first-result">BLUE:<span id="blue-log"> 0</span></div>
+</div>
+
+</body>	
+<script type="text/javascript">
+	
+	
+	$(document).ready(function() {
+    for(var x = 0; x < 4; x++) {
+        for(var y = 0; y < 4; y++) {
+            var unit = $("<svg width='80' height='80'><rect ='0'  y='0' width='80' height='80'/></svg>");
+            unit.appendTo('#container');
+        }
+    }
+});
+	var numItems = $('svg').length;
+	$(document).ready(function() {
+		 $("rect").mouseover(function(){
+        $(this).addClass("rect-over");
+    });
+		 	 $("rect").mouseout(function(){
+        $(this).removeClass("rect-over");
+    });
+		$('rect').click((function() {
+			
+    var i = 0;
+    var colors = ['blue','red'];
+
+    return function() {
+    	 $(this).removeClass("rect-over");
+        $(this).addClass( colors[i = ++i % 2] ).unbind('click');
+       
+    };
+
+})());
+});
+
+$(document).ready(function(){
+		$('rect').click(function() {
+			if($( 'rect').hasClass( 'red' )) {
+				var red = $('.red').length;
+				var blue = $('.blue').length;
+				$("#red-log").html(' '+red);
+				$("#blue-log").html(' '+blue);
+
+			}
+		});
+
+	
+});
+
+</script>
+
+</html>

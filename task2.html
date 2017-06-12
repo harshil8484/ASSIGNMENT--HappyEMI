@@ -1,0 +1,117 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title></title>
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>
+    <link rel="stylesheet" type="text/css" href="css/task2.css">
+
+</style>
+</head>
+<body>
+<div class="weatherApp-container">
+    <div class="weatherApp-row">
+        <div class="map-container">
+            <div id="map"></div>
+        </div>
+        <div class="background">
+            <header class="header"> 
+              <h1> TASK 2</h1>
+            </header>
+            <div class="info-container">
+                <p id="city"></p>
+                <p ><span style="color:red">Click me > </span><span id="temp" class="fahrenheit"></span></p>
+                <p id="weather"></p>
+            </div>
+        </div>
+    </div>
+</div>
+
+<script src="https://maps.googleapis.com/maps/api/js?key=AIzaSyDpAa_tT7olHLBXJiDLtbwRZMjVK1ax6Nc" async defer></script>
+<script type="text/javascript">
+    function geocodeLatLng(lat, lon, geocoder, map) {
+    var latlon = {
+        lat: lat,
+        lng: lon
+    };
+    geocoder.geocode({
+        'location': latlon
+    }, function(results, status) {
+        if (status === 'OK') {
+            if (results[1]) {
+                var marker = new google.maps.Marker({
+                    position: latlon,
+                    map: map
+                });
+                $('#city').text(results[1].formatted_address);
+            } else {
+                window.alert('No results found');
+            }
+        } else {
+            window.alert('Geocoder failed due to: ' + status);
+        }
+    });
+}
+
+function initMap(lat, lon) {
+    var latlon = {
+        lat: lat,
+        lng: lon
+    };
+    var geocoder = new google.maps.Geocoder;
+    var map = new google.maps.Map(document.getElementById('map'), {
+        center: latlon,
+        scrollwheel: false,
+        zoom: 15
+    });
+    geocodeLatLng(lat, lon, geocoder, map);
+}
+
+function getWeatherData(lat, lon) {
+    var url = 'https://api.darksky.net/forecast/6567eef009fa43a80a11aad58e6fec8f/' + lat + ',' + lon;
+    $.ajax({
+        type: 'GET',
+        url: url,
+        async: false,
+        contentType: "application/json",
+        dataType: 'jsonp',
+        success: function(jsonResponse) {
+            debugger;
+            $('#temp').text(jsonResponse.currently.temperature + " °F");
+            $('#weather').text(jsonResponse.currently.summary);
+            $('#weather').attr('class', jsonResponse.currently.icon);
+           
+        }
+    });
+}
+
+function showPosition(position) {
+    var lat = position.coords.latitude,
+        lon = position.coords.longitude;
+    getWeatherData(lat, lon);
+    initMap(lat, lon);
+}
+
+function getLatLon() {
+    navigator.geolocation.getCurrentPosition(showPosition);
+}
+$(document).ready(function() {
+debugger;
+    getLatLon();
+    $('#temp').on('click', function() {
+        var temp;
+        if ($(this).hasClass('fahrenheit')) {
+            temp = $(this).text().split(" ");
+            temp = parseFloat((temp[0] - 32) / 1.8).toFixed(2);
+            $('#temp').text(temp + ' °C');
+            $('#temp').attr('class', 'celsius');
+        } else if ($(this).hasClass('celsius')) {
+            temp = $(this).text().split(" ");
+            temp = parseFloat(temp[0] * 1.8 + 32).toFixed(2);
+            $('#temp').text(temp + ' °F');
+            $('#temp').attr('class', 'fahrenheit');
+        }
+    });
+});
+</script>
+</body>
+</html>
